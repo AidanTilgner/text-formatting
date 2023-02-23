@@ -2,9 +2,8 @@ export const replaceLinks = (text) => {
   const lines = text.split("\n");
   let newLines = lines.map((line, lineNumber) => {
     if (lineContainsEmail(line)) {
-      const email = getEmail(line);
-      const emailText = getEmailText(line);
-      return `<a href="mailto:${email}">${emailText}</a>`;
+      const newLine = getNewLine(line);
+      return newLine;
     }
     return line;
   });
@@ -12,14 +11,21 @@ export const replaceLinks = (text) => {
 };
 
 const lineContainsEmail = (line) => {
-  return !!line.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
+  return !!line.match(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/);
 };
 
-const getEmail = (line) => {
-  const email = line.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)[0];
-  return email;
-};
+const getNewLine = (line) => {
+  // replace all emails with links
+  const matches = line.match(
+    /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g
+  );
 
-const getEmailText = (line) => {
-  return getEmail(line);
+  let newLine = line;
+
+  matches.forEach((match) => {
+    const link = `<a href="mailto:${match}">${match}</a>`;
+    newLine = newLine.replace(match, link);
+  });
+
+  return newLine;
 };
