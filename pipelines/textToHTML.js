@@ -6,8 +6,8 @@ import { applyFlags } from "../flags/resolver.js";
 
 export const textToHTML = (text, flags) => {
   let newText = text.trim();
-  newText = textToLists(newText);
-  newText = replaceLinks(newText);
+  // newText = textToLists(newText);
+  // newText = replaceLinks(newText);
   newText = textToParagraphs(newText);
   newText = applyFlags(newText, flags);
   newText = format(newText, { parser: "html" });

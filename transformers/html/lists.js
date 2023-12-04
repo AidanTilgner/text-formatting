@@ -23,17 +23,10 @@ export const textToLists = (text) => {
 };
 
 const lineIsOrderdListItem = (line) => {
-  // examples:
-  // 1. item
-  // 1) item
-
-  return line.match(/^[0-9]+\./) || line.match(/^[0-9]+\)/);
+  return Boolean(line.match(/^[0-9a-zA-Z]+\./) || line.match(/^[0-9a-zA-Z]+\)/));
 };
 
 const lineIsUnorderedListItem = (line) => {
-  // examples:
-  // - item
-  // * item
   return line.match(/^[-*]/);
 };
 
